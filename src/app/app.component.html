@@ -1,0 +1,67 @@
+<mat-toolbar>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Indicosmic.com</span>
+  
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" style="margin-left: 57pc;">
+      <mat-icon>share</mat-icon>
+      &nbsp;&nbsp;&nbsp;
+    <mat-icon>favorite</mat-icon>
+    
+  </button>
+</mat-toolbar>
+
+<br>
+
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+  <mat-card>
+    <mat-card-title style="display: flex; justify-content: center; align-items: center; height: 10vh;">Feedback Card</mat-card-title>
+    <mat-card-content>
+      <form class="example-form" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="example-full-width">
+          <mat-label>Enter First Name : </mat-label>
+          <input matInput placeholder="Enter First Name" formControlName="firstName">
+          <mat-error *ngIf="myForm.get('firstName').hasError('required') && myForm.get('firstName').touched">
+            First Name is required.
+          </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="example-full-width">
+          <mat-label>Enter Last Name : </mat-label>
+          <input matInput placeholder="Enter Last Name" formControlName="lastName">
+          <mat-error *ngIf="myForm.get('lastName').hasError('required') && myForm.get('lastName').touched">
+            Last Name is required.
+          </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="example-full-width">
+          <mat-label>Enter Mobile No : </mat-label>
+          <input matInput placeholder="Enter Mobile No" formControlName="mobileNumber">
+          <mat-error *ngIf="myForm.get('mobileNumber').hasError('required') && myForm.get('mobileNumber').touched">
+            Mobile Number is required.
+          </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="example-full-width">
+          <mat-label>Leave a comment :</mat-label>
+          <textarea matInput placeholder="Ex. It makes me feel..." formControlName="comment"></textarea>
+          <mat-error *ngIf="myForm.get('comment').hasError('required') && myForm.get('comment').touched">
+            Leave comment is required.
+          </mat-error>
+        </mat-form-field>
+        <br>
+        <div style="display: flex; justify-content: center; align-items: center; height: 10vh;">
+          <button mat-raised-button color="primary" type="submit">Submit</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+
+
+<!-- <mat-toolbar color="accent">
+  <span>Indicosmic.com</span>
+</mat-toolbar> -->
