@@ -40,6 +40,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Book } from './book';
 import { BookService } from './book.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -51,6 +52,7 @@ export class AppComponent implements OnInit {
   title = 'AngularMaterialDesignInAngular16';
   myForm: any;
   indicosbook! : Book[] ;
+  indicosbook1!:Observable<Book[]>;
   constructor(private fb: FormBuilder,private bookservice : BookService) {}
 
   ngOnInit(): void {
@@ -61,6 +63,7 @@ export class AppComponent implements OnInit {
       comment: ['', Validators.required],
     });
     this.getIndicosBooks(); 
+    this.getIndicosBooksObservable();
   }
 
   onSubmit() {
@@ -80,6 +83,16 @@ export class AppComponent implements OnInit {
       
       
     })
+  }
+  getIndicosBooksObservable(){
+    // this.bookservice.getBooksFromStorAsync().subscribe(books =>{
+      
+      
+    // })
+    this.indicosbook1= this.bookservice.getBooksFromStorAsync();
+    console.log(this.indicosbook1);
+    
+      
   }
 }
 
