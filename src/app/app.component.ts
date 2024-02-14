@@ -35,6 +35,55 @@
   
 // // }
 
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Book } from './book';
+import { BookService } from './book.service';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+  
+  title = 'AngularMaterialDesignInAngular16';
+  myForm: any;
+  indicosbook! : Book[] ;
+  constructor(private fb: FormBuilder,private bookservice : BookService) {}
+
+  ngOnInit(): void {
+    this.myForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      mobileNumber: ['', Validators.required],
+      comment: ['', Validators.required],
+    });
+    this.getIndicosBooks(); 
+  }
+
+  onSubmit() {
+    
+    if (this.myForm.valid) {
+      console.log(this.myForm.value);
+    } else {
+      // Handle invalid form
+    }
+  }
+  getIndicosBooks(){
+    this.bookservice.getBooksFromStor().subscribe(books =>{
+      console.log(books);
+      this.indicosbook = books
+      console.log(this.indicosbook);
+      console.log(books.values());
+      
+      
+    })
+  }
+}
+
+
 // import { HttpClient } from '@angular/common/http';
 // import { Component, OnInit } from '@angular/core';
 // import { FormBuilder, Validators } from '@angular/forms';
@@ -54,8 +103,8 @@
 //     this.myForm = this.fb.group({
 //       firstName: ['', Validators.required],
 //       lastName: ['', Validators.required],
-//       mobileNumber: ['', Validators],
-//       comment: [''],
+//       mobileNumber: ['', Validators.required],
+//       comment: ['',Validators.required],
 //     });
 //   }
 
@@ -67,38 +116,4 @@
 //     }
 //   }
 // }
-
-
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent implements OnInit {
-  title = 'AngularMaterialDesignInAngular16';
-  myForm: any;
-
-  constructor(private http: HttpClient, private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.myForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      mobileNumber: ['', Validators.required],
-      comment: ['',Validators.required],
-    });
-  }
-
-  onSubmit() {
-    if (this.myForm.valid) {
-      console.log(this.myForm.value);
-    } else {
-      // Handle invalid form
-    }
-  }
-}
 
