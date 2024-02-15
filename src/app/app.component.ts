@@ -42,6 +42,7 @@ import { Book, TestData, UnitedStates } from './book';
 import { BookService } from './book.service';
 import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
+import { compileNgModule } from '@angular/compiler';
 
 @Component({
   selector: 'app-root',
@@ -54,6 +55,7 @@ export class AppComponent implements OnInit {
   myForm: any;
   indicosbook! : Book[] ;
   indicosbook1!:Observable<Book[]>;
+  indicosbook2!:Book[] ;
   usaData!:Observable<UnitedStates[]>;
   testData!: Observable<TestData[]>;
   dataSource: any;
@@ -89,17 +91,23 @@ export class AppComponent implements OnInit {
       console.log(this.indicosbook);
       console.log(books.values());      
     })
+    this.bookservice.getBooksFromStorId(170).subscribe(books =>{
+      console.log(books);  
+      this.indicosbook2 = books
+      console.log(this.indicosbook2);
+      console.log(books.values());    
+    });
     this.bookservice.getBooksFromStorAsync().subscribe(data=> {
       console.log(data);     
     })
     this.bookservice.getDataUSAFromStorAsync().subscribe(data=>{
-      console.log(data);
-      
+      console.log(data); 
     });
     this.bookservice.testData().subscribe(data=>{console.log(data);
       this.dataSource = new MatTableDataSource<TestData>(data);
     });
   }
+  
   getIndicosBooksObservable(){
     this.indicosbook1= this.bookservice.getBooksFromStorAsync();
    // console.log(this.indicosbook1);  
