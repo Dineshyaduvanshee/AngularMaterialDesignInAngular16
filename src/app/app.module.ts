@@ -118,10 +118,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
+import AdminComponent from './admin/admin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -133,7 +135,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatButtonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatTableModule
+    MatTableModule,
+    
   ],
   bootstrap: [AppComponent]
 })

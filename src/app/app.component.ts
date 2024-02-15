@@ -43,6 +43,11 @@ import { BookService } from './book.service';
 import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { compileNgModule } from '@angular/compiler';
+import { map } from 'rxjs/operators';
+
+
+
+
 
 @Component({
   selector: 'app-root',
@@ -56,10 +61,11 @@ export class AppComponent implements OnInit {
   indicosbook! : Book[] ;
   indicosbook1!:Observable<Book[]>;
   indicosbook2!:Book[] ;
+  indicosbook3: string[] = [];
   usaData!:Observable<UnitedStates[]>;
   testData!: Observable<TestData[]>;
   dataSource: any;
-  constructor(private fb: FormBuilder,private bookservice : BookService) {
+  constructor(private fb: FormBuilder,private bookService : BookService) {
    // this.dataSource = new MatTableDataSource<TestData>();
   }
 
@@ -74,6 +80,7 @@ export class AppComponent implements OnInit {
     this.getIndicosBooksObservable();
     this.getUsaDataObservable();
     this.getTestData();
+    this.getBooks();
   }
 
   onSubmit() {
@@ -85,43 +92,121 @@ export class AppComponent implements OnInit {
     }
   }
   getIndicosBooks(){
-    this.bookservice.getBooksFromStor().subscribe(books =>{
+    this.bookService.getBooksFromStor().subscribe(books =>{
       console.log(books);
       this.indicosbook = books
       console.log(this.indicosbook);
       console.log(books.values());      
     })
-    this.bookservice.getBooksFromStorId(170).subscribe(books =>{
+    this.bookService.getBooksFromStorId(170).subscribe(books =>{
       console.log(books);  
       this.indicosbook2 = books
       console.log(this.indicosbook2);
       console.log(books.values());    
     });
-    this.bookservice.getBooksFromStorAsync().subscribe(data=> {
+    this.bookService.getBooksFromStorAsync().subscribe(data=> {
       console.log(data);     
     })
-    this.bookservice.getDataUSAFromStorAsync().subscribe(data=>{
+    this.bookService.getDataUSAFromStorAsync().subscribe(data=>{
       console.log(data); 
     });
-    this.bookservice.testData().subscribe(data=>{console.log(data);
+    this.bookService.testData().subscribe(data=>{console.log(data);
       this.dataSource = new MatTableDataSource<TestData>(data);
     });
   }
   
   getIndicosBooksObservable(){
-    this.indicosbook1= this.bookservice.getBooksFromStorAsync();
+    this.indicosbook1= this.bookService.getBooksFromStorAsync();
    // console.log(this.indicosbook1);  
   }
 
   getUsaDataObservable(){
-    this.usaData= this.bookservice.getDataUSAFromStorAsync();
+    this.usaData= this.bookService.getDataUSAFromStorAsync();
     //console.log(this.usaData);  
   }
   getTestData(){
-    this.testData= this.bookservice.testData();
+    this.testData= this.bookService.testData();
    // console.log(this.testData);
     
   }
+  // getBooks() {
+  //   this.bookservice.getBooksFromStorIdString(170).subscribe(books => {
+  //     this.indicosbook3 = books.map(book => book.languages);
+  //   });
+  // }
+
+  // getBooks() {
+  //   this.bookservice.getBooksFromStorIdString(170).subscribe(countries => {
+  //     this.indicosbook3 = countries.map(country => country.name);
+  //   });
+  // }
+
+  // getBooks() {
+  //   this.bookservice.getBooksFromStorIdString(170)
+  //     .pipe(
+  //       map((unitedStates: UnitedStates<Observable>[]) => unitedStates.map(book => book.name))
+  //     )
+  //     .subscribe((areas: string[]) => {
+  //       this.indicosbook3 = areas;
+  //     });
+  // }
+  
+  // getBooks() {
+  //   this.bookservice.getBooksFromStorIdString(170)
+  //     .pipe(
+  //       map((unitedStates: UnitedStates[]) => unitedStates.map(book => book.data[0]))
+  //     )
+  //     .subscribe((firstDataElements: string[]) => {
+  //       this.indicosbook3 = firstDataElements;
+  //     });
+  // }
+
+  // getBooks() {
+  //   this.bookservice.getBooksFromStorIdString(170)
+  //     .pipe(
+  //       map((unitedStates: UnitedStates[]) => unitedStates.map(book => book.data[0]))
+  //     )
+  //     .subscribe((firstDataElements: string[]) => {
+  //       this.indicosbook3 = firstDataElements;
+  //     });
+  // }
+
+  // getBooks() {
+  //   this.bookService.getBooksFromStorIdString(170)
+  //     .pipe(
+  //       map((unitedStates: UnitedStates[]) => unitedStates.map(book => book.data[0]))
+  //     )
+  //     .subscribe({
+  //       next: (firstDataElements: string[]) => {
+  //         this.indicosbook3 = firstDataElements;
+  //       },
+  //       error: (error) => {
+  //         console.error('Error:', error);
+  //       },
+  //       complete: () => {
+  //         console.log('Subscription completed');
+  //       }
+  //     });
+  // }
+
+  getBooks() {
+    this.bookService.getBooksFromStorIdString(170)
+      .pipe(
+        map((unitedStates: UnitedStates[]) => unitedStates.map(item => item.data[0].Nation))
+      )
+      .subscribe({
+        next: (firstDataElements: string[]) => {
+          this.indicosbook3 = firstDataElements;
+        },
+        error: (error) => {
+          console.error('Error:', error);
+        },
+        complete: () => {
+          console.log('Subscription completed');
+        }
+      });
+  }
+
 }
 
 

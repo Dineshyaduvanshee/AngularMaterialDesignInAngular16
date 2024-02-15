@@ -1,0 +1,44 @@
+<h3 style="text-align: center;background-color: blueviolet;">!!AngularHttpclient Post!!</h3>
+<p *ngIf="datasaved" ngClass="success">!!Record saved Successfully!!</p>
+<form [formGroup]="bookForm" (ngSubmit)="onFormSubmit()">
+    <table>
+        <tr>
+            <td>Id : </td>
+            <td><input formControlName="id"></td>
+        </tr>
+        <tr>
+            <td>Name : </td>
+            <td><input formControlName="name"></td>
+        </tr>
+        <tr>
+            <td>Category : </td>
+            <td><input formControlName="category"></td>
+        </tr>
+        <tr>
+            <td>Writer : </td>
+            <td><input formControlName="writer"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button  [disabled]="bookForm.invalid">Submit</button>
+            </td>
+        </tr>
+
+    </table>
+</form>
+<h3>View</h3>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Writer</th>
+    </tr>
+    <tr *ngFor="let bk of createbook1 | async">
+        <td>101{{bk.id}}</td>
+        <td>john{{bk.name}}</td>
+        <td>and{{bk.category}}</td>
+        <td>hello{{bk.writer}}</td>
+        <!-- <td>{{bk.writer}}</td> -->
+    </tr>
+</table>
