@@ -38,9 +38,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Book } from './book';
+import { Book, TestData, UnitedStates } from './book';
 import { BookService } from './book.service';
 import { Observable } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-root',
@@ -53,7 +54,12 @@ export class AppComponent implements OnInit {
   myForm: any;
   indicosbook! : Book[] ;
   indicosbook1!:Observable<Book[]>;
-  constructor(private fb: FormBuilder,private bookservice : BookService) {}
+  usaData!:Observable<UnitedStates[]>;
+  testData!: Observable<TestData[]>;
+  dataSource: any;
+  constructor(private fb: FormBuilder,private bookservice : BookService) {
+   // this.dataSource = new MatTableDataSource<TestData>();
+  }
 
   ngOnInit(): void {
     this.myForm = this.fb.group({
@@ -64,6 +70,8 @@ export class AppComponent implements OnInit {
     });
     this.getIndicosBooks(); 
     this.getIndicosBooksObservable();
+    this.getUsaDataObservable();
+    this.getTestData();
   }
 
   onSubmit() {
@@ -79,20 +87,32 @@ export class AppComponent implements OnInit {
       console.log(books);
       this.indicosbook = books
       console.log(this.indicosbook);
-      console.log(books.values());
-      
-      
+      console.log(books.values());      
     })
+    this.bookservice.getBooksFromStorAsync().subscribe(data=> {
+      console.log(data);     
+    })
+    this.bookservice.getDataUSAFromStorAsync().subscribe(data=>{
+      console.log(data);
+      
+    });
+    this.bookservice.testData().subscribe(data=>{console.log(data);
+      this.dataSource = new MatTableDataSource<TestData>(data);
+    });
   }
   getIndicosBooksObservable(){
-    // this.bookservice.getBooksFromStorAsync().subscribe(books =>{
-      
-      
-    // })
     this.indicosbook1= this.bookservice.getBooksFromStorAsync();
-    console.log(this.indicosbook1);
+   // console.log(this.indicosbook1);  
+  }
+
+  getUsaDataObservable(){
+    this.usaData= this.bookservice.getDataUSAFromStorAsync();
+    //console.log(this.usaData);  
+  }
+  getTestData(){
+    this.testData= this.bookservice.testData();
+   // console.log(this.testData);
     
-      
   }
 }
 
