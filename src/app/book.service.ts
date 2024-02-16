@@ -16,7 +16,7 @@ export class BookService {
   url1 = "http://universities.hipolabs.com/search?country=United+States";
   apiUrl= "";
   
-
+  //https://api.publicapis.org/entriess
   constructor(private http: HttpClient) { }
 
   getBooksFromStorId(id : number): Observable<Book[]> {
